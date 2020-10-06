@@ -4,9 +4,6 @@ on:
   push:
     tags: 'v*'
 
-env:
-  version="${GITHUB_REF##*/*/}"
-
 jobs:
   release:
     strategy:
