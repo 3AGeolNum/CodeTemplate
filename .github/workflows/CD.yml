@@ -15,28 +15,22 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
-    - name: version number
-      id: package-version
-        number="${GITHUB_REF##*/*/}"
-       # echo ::set-output name=version::$version
     - name: Create Build Environment
-      run: cmake -E make_directory ${{runner.workspace}}/build
+        cmake -E make_directory ${{runner.workspace}}/build
 
     - name: Configure CMake
-      id: configuration
+      id: package
       shell: bash
       working-directory: ${{runner.workspace}}/build
-      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=Release -DCPACK_PACKAGE_VERSION:STRING=${{steps.package-version.number}} -DCPACK_SYSTEM_NAME:STRING=${{ matrix.config.system }}
-
-    - name: Build Package
-      working-directory: ${{runner.workspace}}/build
-      shell: bash
-      # Execute the build.  You can specify a specific target with "--target <NAME>"
-      run: cmake --build . --config Release --target package
+      run: |
+        version="${GITHUB_REF##*/*/}"
+        echo ::set-output name=version::$version
+        cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=Release -DCPACK_PACKAGE_VERSION:STRING=$version -DCPACK_SYSTEM_NAME:STRING=${{ matrix.config.system }}
+        cmake --build . --config Release --target package
 
     - name: Upload
       uses: softprops/action-gh-release@v1
       with:
-        files: "build/CodeTemplate-${{steps.package-version.number}}-${{ matrix.config.system }}.${{ matrix.config.ext }}"
+        files: "build/CodeTemplate-${{steps.package.outputs.version}}-${{ matrix.config.system }}.${{ matrix.config.ext }}"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN  }}
