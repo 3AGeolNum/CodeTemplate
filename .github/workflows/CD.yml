@@ -12,7 +12,7 @@ jobs:
         - {os: "ubuntu-latest", system: "ubuntu", ext: "tar.gz"}
         #- {os: "windows-latest", system: "win64", ext: "zip"}
 
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.config.os }}
     steps:
     - uses: actions/checkout@v2
     - name: Create Build Environment
