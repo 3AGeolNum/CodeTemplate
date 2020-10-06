@@ -10,7 +10,7 @@ jobs:
       matrix:
         config:
         - {os: "ubuntu-latest", system: "ubuntu", ext: "tar.gz"}
-        #- {os: "windows-latest", system: "win64", ext: "zip"}
+        - {os: "windows-latest", system: "win64", ext: "zip"}
 
     runs-on: ${{ matrix.config.os }}
     steps:
@@ -31,6 +31,6 @@ jobs:
     - name: Upload
       uses: softprops/action-gh-release@v1
       with:
-        files: "build/CodeTemplate-${{steps.package.outputs.version}}-${{ matrix.config.system }}.${{ matrix.config.ext }}"
+        files: "${{runner.workspace}}/build/CodeTemplate-${{steps.package.outputs.version}}-${{ matrix.config.system }}.${{ matrix.config.ext }}"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN  }}
