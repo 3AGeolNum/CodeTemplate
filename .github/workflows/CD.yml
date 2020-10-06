@@ -14,12 +14,10 @@ jobs:
         config:
         - {os: "ubuntu-latest", system: "ubuntu", ext: "tar.gz"}
         #- {os: "windows-latest", system: "win64", ext: "zip"}
+
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
-    - name: version number 
-      id: package_version
-
     - name: Create Build Environment
       run: cmake -E make_directory ${{runner.workspace}}/build
 
