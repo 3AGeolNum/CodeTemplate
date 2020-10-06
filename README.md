@@ -3,7 +3,7 @@ This Project aim at providing a orgnanize code Template for c++ based project us
 
 # CI/CD
 github CI/CD are implemented in .github/workflow folder
-Status: ![CI](https://github.com/ring-teaching/CodeTemplate/workflows/CI/badge.svg?branch=master) ![CD](https://github.com/ring-teaching/CodeTemplate/workflows/CD/badge.svg?branch=master)
+Status: ![CI](https://github.com/ring-teaching/CodeTemplate/workflows/CI/badge.svg?branch=master) ![CD](https://github.com/ring-teaching/CodeTemplate/workflows/CD/badge.svg)
 
 ## project organization
  * cmake: folder to centralize (1) CMake macros and function and (2) CMake related configuration files.
