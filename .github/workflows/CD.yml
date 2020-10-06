@@ -1,0 +1,45 @@
+name: CD
+
+on:
+  push:
+    tags: 'v*'
+
+env:
+  version="${GITHUB_REF##*/*/}"
+
+jobs:
+  release:
+    strategy:
+      matrix:
+        config:
+        - {os: "ubuntu-latest", system: "ubuntu", ext: "tar.gz"}
+        #- {os: "windows-latest", system: "win64", ext: "zip"}
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v2
+    - name: version number 
+      id: package_version
+
+    - name: Create Build Environment
+      run: cmake -E make_directory ${{runner.workspace}}/build
+
+    - name: Configure CMake
+      shell: bash
+      working-directory: ${{runner.workspace}}/build
+      run: |
+        version="${GITHUB_REF##*/*/}"
+        echo ::set-output name=version::$version
+        cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=Release -DCPACK_PACKAGE_VERSION:STRING=$version -DCPACK_SYSTEM_NAME:STRING=${{ matrix.config.system }}
+
+    - name: Build Package
+      working-directory: ${{runner.workspace}}/build
+      shell: bash
+      # Execute the build.  You can specify a specific target with "--target <NAME>"
+      run: cmake --build . --config Release --target package
+
+    - name: Upload
+      uses: softprops/action-gh-release@v1
+      with:
+        files: "build/CodeTemplate-${{ version }}-${{ matrix.config.system }}.${{ matrix.config.ext }}"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN  }}
