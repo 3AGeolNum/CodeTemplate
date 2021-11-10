@@ -1,7 +1,8 @@
 
 set(target_name code_template)
-add_library(${target_name} STATIC "") # try SHARED for dynamic library
-
+add_library(${target_name} STATIC "") 
+# try SHARED for dynamic library
+# Windows: use dll export macro to use functions and class out of the library
 target_sources(${target_name}
     PRIVATE
 		"${PROJECT_SOURCE_DIR}/src/code_template/print_log.cpp"
@@ -20,13 +21,13 @@ export(TARGETS ${target_name}
 )
 	
 #install target
-install(TARGETS ${target_name} EXPORT ${target_name} DESTINATION ${PROJECT_BINARY_DIR}/install/lib)
+install(TARGETS ${target_name} EXPORT ${target_name} DESTINATION install/lib)
 #install export
-install(EXPORT ${target_name} FILE ${target_name}_target.cmake DESTINATION ${PROJECT_BINARY_DIR}/install/cmake/)
+install(EXPORT ${target_name} FILE ${target_name}_target.cmake DESTINATION install/cmake/)
 
 #install includes
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/
-        DESTINATION ${PROJECT_BINARY_DIR}/install/include/
+        DESTINATION install/include/
 )
 
 
