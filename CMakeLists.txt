@@ -10,8 +10,8 @@ option(CODETEMPLATE_WITH_TESTS "Compile test projects" OFF)
 
 # package settings
 include(CMakePackageConfigHelpers)
-configure_package_config_file(cmake/CodeTemplateConfig.cmake.in CodeTemplateConfig.cmake INSTALL_DESTINATION install/cmake/)
-install(FILES ${PROJECT_BINARY_DIR}/CodeTemplateConfig.cmake DESTINATION install/cmake/)
+configure_package_config_file(cmake/CodeTemplateConfig.cmake.in CodeTemplateConfig.cmake INSTALL_DESTINATION cmake/)
+install(FILES ${PROJECT_BINARY_DIR}/CodeTemplateConfig.cmake DESTINATION cmake/)
 
 #about libraries
 add_subdirectory(src/code_template)
